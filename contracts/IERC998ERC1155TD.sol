@@ -61,7 +61,7 @@ interface IERC998ERC1155TD {
         external;
 
 
-    function getChildBalanceOf(
+    function getChildBalanceOfParent(
         uint256 _parentTokenId, 
         address _childTokenContract, 
         uint256 _childTokenId
@@ -71,7 +71,7 @@ interface IERC998ERC1155TD {
         returns(uint256 _childBalance);
 
 
-    function getChildrenContractsOf(
+    function getChildrenContractsOfParent(
         uint256 _parentTokenId
     ) 
         external
@@ -79,7 +79,16 @@ interface IERC998ERC1155TD {
         returns(address[] memory _childrenTokenContracts);
 
 
-    function getParentOf( 
+    function getChildrenIDsOfParentForChildContract(
+        uint256 _parentTokenId,
+        address _childTokenContract
+    ) 
+        external
+        view
+        returns(uint256[] memory _childrenIds);
+
+
+    function getParentOfChildForContract( 
         address _childTokenContract, 
         uint256 _childTokenId
     )

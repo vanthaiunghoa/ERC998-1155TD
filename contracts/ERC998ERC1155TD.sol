@@ -2,6 +2,8 @@
 
 pragma solidity 0.8.0;
 
+
+import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/token/ERC1155/utils/ERC1155Holder.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
@@ -16,7 +18,7 @@ contract ERC998ERC1155TD is Context, ERC721URIStorage, ERC1155Holder, IERC998ERC
 
     // parentTokenID => set(childContractAddress)
     mapping(uint256 => EnumerableSet.AddressSet) private _childrenContractsOfParent;
-     // parentTokenID => map(childTokenAddress => set(childTokensIDs))
+     // parentTokenID => map(childTokenAddress => set(childTokensID))
     mapping(uint256 => mapping(address => EnumerableSet.UintSet)) private _childrenIDsOfParent;
     // parentTokenID => map(childTokenAddress => map(childTokenID => balance))
     mapping(uint256 => mapping(address => mapping(uint256 => uint256))) private _childBalanceOfParent;
@@ -223,13 +225,12 @@ contract ERC998ERC1155TD is Context, ERC721URIStorage, ERC1155Holder, IERC998ERC
 
         uint256 parentTokenId;
 
-        assembly { 
+        assembly {
             parentTokenId := calldataload(sub(calldatasize(), 0x20))
         }
-        
+
         require(_exists(parentTokenId), "ERC998ERC1155TD: Attaching to a nonexistent parent token");
         require(_childrenTokenIds.length == _childrenTokenAmounts.length, "ERC998ERC1155TD: Child tokens amounts and IDs arrays size mismatch");
-
         for (uint256 i = 0; i < _childrenTokenIds.length; i++) {
             _beforeChildTransfer(
                 _operator, 
@@ -276,7 +277,7 @@ contract ERC998ERC1155TD is Context, ERC721URIStorage, ERC1155Holder, IERC998ERC
      * @param _childTokenId The ID of the child token
      * @return _childBalance The balance of the child token attached to the parent
      */
-    function getChildBalanceOf(
+    function getChildBalanceOfParent(
         uint256 _parentTokenId, 
         address _childTokenContract, 
         uint256 _childTokenId
@@ -296,7 +297,7 @@ contract ERC998ERC1155TD is Context, ERC721URIStorage, ERC1155Holder, IERC998ERC
      * @param _parentTokenId The ID of the parent token
      * @return _childrenTokenContracts The children contract addresses
      */
-    function getChildrenContractsOf(
+    function getChildrenContractsOfParent(
         uint256 _parentTokenId
     ) 
         external
@@ -314,6 +315,25 @@ contract ERC998ERC1155TD is Context, ERC721URIStorage, ERC1155Holder, IERC998ERC
         _childrenTokenContracts = entries;
     }
 
+    function getChildrenIDsOfParentForChildContract(
+        uint256 _parentTokenId,
+        address _childTokenContract
+    ) 
+        external
+        view
+        virtual
+        override
+        returns(uint256[] memory _childrenIds) 
+    {
+        uint256[] memory entries = new uint256[](_childrenIDsOfParent[_parentTokenId][_childTokenContract].length());
+        
+        for (uint256 i = 0; i < _childrenIDsOfParent[_parentTokenId][_childTokenContract].length(); i++) {
+            entries[i] = _childrenIDsOfParent[_parentTokenId][_childTokenContract].at(i);
+        }
+
+        _childrenIds = entries;
+    }
+
 
     /**
      * @notice Returns the parent token ID of a given child token
@@ -321,7 +341,7 @@ contract ERC998ERC1155TD is Context, ERC721URIStorage, ERC1155Holder, IERC998ERC
      * @param _childTokenId The child token ID
      * @return _parentTokenId The parent token ID 
      */
-    function getParentOf( 
+    function getParentOfChildForContract( 
         address _childTokenContract, 
         uint256 _childTokenId
     )
@@ -350,8 +370,8 @@ contract ERC998ERC1155TD is Context, ERC721URIStorage, ERC1155Holder, IERC998ERC
     ) 
         internal
         virtual 
-    {
-        _childrenContractsOfParent[_parentTokenId].add(_childTokenContract);
+    {   
+        _childrenContractsOfParent[_parentTokenId].add( _childTokenContract);
         _childrenIDsOfParent[_parentTokenId][_childTokenContract].add(_childTokenId);
         _childBalanceOfParent[_parentTokenId][_childTokenContract][_childTokenId] += _childTokenAmount;
         _parentOfChild[_childTokenContract][_childTokenId] = _parentTokenId;
