@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED
 
-pragma solidity 0.8.0;
+pragma solidity 0.8.6;
 
 
 import "hardhat/console.sol";
@@ -231,6 +231,7 @@ contract ERC998ERC1155TD is Context, ERC721URIStorage, ERC1155Holder, IERC998ERC
 
         require(_exists(parentTokenId), "ERC998ERC1155TD: Attaching to a nonexistent parent token");
         require(_childrenTokenIds.length == _childrenTokenAmounts.length, "ERC998ERC1155TD: Child tokens amounts and IDs arrays size mismatch");
+        
         for (uint256 i = 0; i < _childrenTokenIds.length; i++) {
             _beforeChildTransfer(
                 _operator, 
