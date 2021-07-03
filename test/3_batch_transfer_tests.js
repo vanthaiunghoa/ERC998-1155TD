@@ -12,7 +12,7 @@ describe("ERC998-ERC1155 Topdown batch transfer tests", () => {
   });
 
   beforeEach(async () => {
-    const Composable = await ethers.getContractFactory("ERC998ERC1155TD");
+    const Composable = await ethers.getContractFactory("ExampleComposableToken");
     const MultiTokens = await ethers.getContractFactory("testERC1155");
 
     this.composable = await Composable.deploy(

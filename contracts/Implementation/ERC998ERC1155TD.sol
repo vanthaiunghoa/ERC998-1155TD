@@ -450,11 +450,4 @@ contract ERC998ERC1155TD is Context, ERC721URIStorage, ERC1155Holder, IERC998ERC
 
         return array;
     }
-
-
-    // FOR TESTS
-    function mint(address _to, uint256 _tokenID) public {
-        _safeMint(_to, _tokenID);
-    }
-
 }
