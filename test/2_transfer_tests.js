@@ -27,7 +27,7 @@ describe("ERC998-ERC1155 Topdown single asset transfer tests", () => {
     await this.multitokens.mint(this.MULTITOKENS_OWNER.address, 1);
   });
 
-  describe("Attaching a child ERC1155 token to a parent composable token", () => {
+  describe("Attaching a single child ERC1155 token to a parent composable token", () => {
     const encodedNonExistentParentID = ethers.utils.defaultAbiCoder.encode(
       ["uint256"],
       ["2"]
@@ -165,7 +165,7 @@ describe("ERC998-ERC1155 Topdown single asset transfer tests", () => {
         );
     });
 
-    it("The transfer must revert if the receiving parent token ID from _data argument is unknown", async () => {
+    it("The transfer must revert if the receiving parent token ID is unknown", async () => {
       await expect(
         this.composable
           .connect(this.COMPOSABLE_OWNER)
