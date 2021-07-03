@@ -126,8 +126,8 @@ contract ERC998ERC1155TD is Context, ERC721URIStorage, ERC1155Holder, IERC998ERC
             require(_childrenIDsOfParent[_fromParentTokenId][_childTokenContract].contains(_childrenTokenIds[i]), 
                 "ERC998ERC1155TD: One of the supplied children token IDs is not attached to the parent token"
             );
-            require(_childrenTokenAmounts[i] <= _childBalanceOfParent[_fromParentTokenId][_childTokenContract][_childrenTokenIds[i]], 
-                "ERC998ERC1155TD: One of the supplied children token amounts exceed the attached child balance"
+            require(_childrenTokenAmounts[i] != 0 && _childrenTokenAmounts[i] <= _childBalanceOfParent[_fromParentTokenId][_childTokenContract][_childrenTokenIds[i]], 
+                "ERC998ERC1155TD: One of the supplied children token amounts exceeds the attached child balance or is zero"
             );
 
             _beforeChildTransfer(
