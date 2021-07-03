@@ -148,14 +148,14 @@ describe("ERC998-ERC1155 Topdown batch transfer tests", () => {
             encodedExistentParentID
           )
       )
-			.to.emit(this.composable, "ChildrenReceived")
-			.withArgs(
-				this.MULTITOKENS_OWNER.address,
-				1,
-				this.multitokens.address,
-				childrenIDsToTransfer,
-				childrenAmountsToTransfer
-			);
+        .to.emit(this.composable, "ChildrenReceived")
+        .withArgs(
+          this.MULTITOKENS_OWNER.address,
+          1,
+          this.multitokens.address,
+          childrenIDsToTransfer,
+          childrenAmountsToTransfer
+        );
     });
   });
 
@@ -345,14 +345,14 @@ describe("ERC998-ERC1155 Topdown batch transfer tests", () => {
             dummyEncodedData
           )
       )
-			.to.emit(this.composable, "ChildrenTransfered")
-			.withArgs(
-				1,
-				this.DEFAULT_EOA.address,
-				this.multitokens.address,
-				childrenIDsToTransfer,
-				childrenAmountsToTransfer
-			);
+        .to.emit(this.composable, "ChildrenTransfered")
+        .withArgs(
+          1,
+          this.DEFAULT_EOA.address,
+          this.multitokens.address,
+          childrenIDsToTransfer,
+          childrenAmountsToTransfer
+        );
     });
   });
 });
