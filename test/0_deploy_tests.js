@@ -18,7 +18,6 @@ describe("ERC998-ERC1155 Topdown deployment tests", () => {
     this.composable = await Composable.deploy(
       "Composable Token",
       "CTKN",
-      "https://basetokenuri.com/"
     );
 
     this.multitokens = await MultiTokens.deploy();
@@ -41,11 +40,9 @@ describe("ERC998-ERC1155 Topdown deployment tests", () => {
     it("Composable constructor arguments are correctly set", async () => {
       const name = await this.composable.name();
       const symb = await this.composable.symbol();
-      const baseURI = await this.composable.baseURI();
 
       expect(name).to.equal("Composable Token");
       expect(symb).to.equal("CTKN");
-      expect(baseURI).to.equal("https://basetokenuri.com/");
     });
   });
 });

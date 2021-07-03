@@ -17,8 +17,7 @@ describe("ERC998-ERC1155 Topdown batch transfer tests", () => {
 
     this.composable = await Composable.deploy(
       "Composable Token",
-      "CTKN",
-      "https://basetokenuri.com/"
+      "CTKN"
     );
 
     this.multitokens = await MultiTokens.deploy();

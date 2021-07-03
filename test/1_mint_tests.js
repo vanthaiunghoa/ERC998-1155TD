@@ -16,8 +16,7 @@ describe("ERC998-ERC1155 Topdown minting tests", () => {
 
     this.composable = await Composable.deploy(
       "Composable Token",
-      "CTKN",
-      "https://basetokenuri.com/"
+      "CTKN"
     );
   });
 
