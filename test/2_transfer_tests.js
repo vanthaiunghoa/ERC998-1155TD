@@ -165,7 +165,7 @@ describe("ERC998-ERC1155 Topdown single asset transfer tests", () => {
         );
     });
 
-    it("The transfer must revert if the receiving parent token ID is unknown", async () => {
+    it("The transfer must revert if the parent token ID is unknown", async () => {
       await expect(
         this.composable
           .connect(this.COMPOSABLE_OWNER)
