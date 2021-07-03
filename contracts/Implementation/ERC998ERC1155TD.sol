@@ -5,12 +5,11 @@ pragma solidity 0.8.6;
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/token/ERC1155/utils/ERC1155Holder.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 import "@openzeppelin/contracts/utils/Context.sol";
 import "./IERC998ERC1155TD.sol";
 
-contract ERC998ERC1155TD is Context, ERC721URIStorage, ERC1155Holder, IERC998ERC1155TD {
+contract ERC998ERC1155TD is Context, ERC721, ERC1155Holder, IERC998ERC1155TD {
     using EnumerableSet for EnumerableSet.AddressSet;
     using EnumerableSet for EnumerableSet.UintSet;
 
@@ -23,11 +22,7 @@ contract ERC998ERC1155TD is Context, ERC721URIStorage, ERC1155Holder, IERC998ERC
     // childTokenAddress => map(childTokenID => parentTokenID)
     mapping(address => mapping(uint256 => uint256)) private _parentOfChild;
 
-    string public baseURI;
-
-    constructor(string memory _name, string memory _symbol, string memory _uriBase) ERC721(_name, _symbol) {
-        baseURI = _uriBase;
-    }
+    constructor(string memory _name, string memory _symbol) ERC721(_name, _symbol) {}
 
 
     /**
@@ -427,18 +422,6 @@ contract ERC998ERC1155TD is Context, ERC721URIStorage, ERC1155Holder, IERC998ERC
         internal 
         virtual
     { }
-
-
-    function _baseURI() 
-        internal
-        view 
-        virtual
-        override 
-        returns(string memory) 
-    {
-        return baseURI;
-    }
-
 
     function _asSingletonUIntArray(uint256 element) 
         private 
