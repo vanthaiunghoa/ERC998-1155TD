@@ -12,7 +12,7 @@ describe("ERC998-ERC1155 Topdown minting tests", () => {
   });
 
   beforeEach(async () => {
-    const Composable = await ethers.getContractFactory("ERC998ERC1155TD");
+    const Composable = await ethers.getContractFactory("ExampleComposableToken");
 
     this.composable = await Composable.deploy(
       "Composable Token",
