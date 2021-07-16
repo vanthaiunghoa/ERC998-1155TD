@@ -1,7 +1,7 @@
 # ERC998-ERC1155 "TopDown" Composable Token basic implementation
 
 ## Description
-A basic implementation of the top-down *ERC998-ERC1155 Composable Token*. This implementation gives the ability to an *ERC721* token to own multiple *ERC1155* tokens (fungibles and/or non-fungibles).
+A basic implementation of the top-down *ERC998-ERC1155* "Composable Token". This implementation gives the ability to an *ERC721* token to own multiple *ERC1155* tokens (fungibles and/or non-fungibles).
 >This implementation relies on the OpenZeppelin's *ERC721.sol* to define the composable token as well as the *ERC1155.sol* implementation and the *ERC1155Holder.sol* utility to handle the transfers of *ERC1155* tokens from and to a parent composable token.
 
 ## Usage
@@ -40,4 +40,4 @@ In order to run the tests located inside the *test/* directory just run the foll
 >You are not required to compile or deploy anything before running the *test* command as HardHat will handle it for you.
 
 ## Disclaimer
-> The code contained in this repository has been written during my Solidity learning journey and is not meant to be used in production. Use it with caution.
+The code contained in this repository has been written during my Solidity learning journey and so, is not meant to be used in production. Use it with caution.
