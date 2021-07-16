@@ -1,11 +1,11 @@
 # ERC998-ERC1155 "TopDown" Composable Token basic implementation
 
 ## Description
-A basic implementation of the *ERC998-ERC1155 Composable Token*. This implementation gives the ability to an *ERC721* token to own multiple *ERC1155* tokens (fungibles and/or non-fungibles).
+A basic implementation of the top-down *ERC998-ERC1155 Composable Token*. This implementation gives the ability to an *ERC721* token to own multiple *ERC1155* tokens (fungibles and/or non-fungibles).
 >This implementation relies on the OpenZeppelin's *ERC721.sol* to define the composable token as well as the *ERC1155.sol* implementation and the *ERC1155Holder.sol* utility to handle the transfers of *ERC1155* tokens from and to a parent composable token.
 
 ## Usage
->This implementation is agnostic to the way composable tokens are created. This means that a supply mechanism has to be added in a derived contract using *{_mint}* from the herited ERC721 contract. For a generic supply mechanism see OpenZeppelin's preset: *ERC721PresetMinterPauserAutoId.sol*.
+>This implementation is agnostic to the way composable tokens are created. This means that a supply mechanism has to be added in a derived contract using *{_mint}* or *{_safeMint}* from the herited ERC721 contract. For a generic supply mechanism see OpenZeppelin's preset: *ERC721PresetMinterPauserAutoId.sol*.
 
 ```solidity
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -34,7 +34,10 @@ Make sure you have npm installed then move inside the previously cloned director
 ```$ npm install```
 
 ## Tests
-In order to run the tests located inside the *test/* directory just run inside the project's root directory:
+In order to run the tests located inside the *test/* directory just run the following command inside the project's root directory:
 ```$ npx hardhat test```
 
 >You are not required to compile or deploy anything before running the *test* command as HardHat will handle it for you.
+
+## Disclaimer
+> The code contained in this repository has been written during my Solidity learning journey and is not meant to be used in production. Use it with caution.
