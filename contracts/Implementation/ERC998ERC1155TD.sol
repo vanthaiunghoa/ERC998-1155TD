@@ -15,7 +15,7 @@ contract ERC998ERC1155TD is Context, ERC721, ERC1155Holder, IERC998ERC1155TD {
 
     // parentTokenID => set(childContractAddress)
     mapping(uint256 => EnumerableSet.AddressSet) private _childrenContractsOfParent;
-     // parentTokenID => map(childTokenAddress => set(childTokensID))
+     // parentTokenID => map(childTokenAddress => set(childrenTokenIDs))
     mapping(uint256 => mapping(address => EnumerableSet.UintSet)) private _childrenIDsOfParent;
     // parentTokenID => map(childTokenAddress => map(childTokenID => balance))
     mapping(uint256 => mapping(address => mapping(uint256 => uint256))) private _childBalanceOfParent;
@@ -164,7 +164,7 @@ contract ERC998ERC1155TD is Context, ERC721, ERC1155Holder, IERC998ERC1155TD {
         override(ERC1155Holder)
         returns(bytes4)
     {
-        require(_data.length == 32, "ERC998ERC1155TD: Data argument must contain the receiving parent token ID as uint256");
+        require(_data.length == 0x20, "ERC998ERC1155TD: Data argument must contain the receiving parent token ID as uint256");
 
         uint256 parentTokenId;
 
@@ -214,7 +214,7 @@ contract ERC998ERC1155TD is Context, ERC721, ERC1155Holder, IERC998ERC1155TD {
         override(ERC1155Holder) 
         returns(bytes4) 
     {
-        require(_data.length == 32, "ERC998ERC1155TD: Data argument must contain the receiving parent token ID as uint256");
+        require(_data.length == 0x20, "ERC998ERC1155TD: Data argument must contain the receiving parent token ID as uint256");
 
         uint256 parentTokenId;
 
@@ -403,7 +403,7 @@ contract ERC998ERC1155TD is Context, ERC721, ERC1155Holder, IERC998ERC1155TD {
 
 
     /**
-     * @dev Hook that is called before any token transfer. This includes minting
+     * @dev Hook that is called before any child token transfer. This includes minting
      * and burning, as well as batched variants.
      * The same hook is called on both single and batched variants. For single
      * transfers, the length of the `_childrenTokenIds` and `_childrenTokenAmounts` arrays will be 1.
@@ -422,6 +422,7 @@ contract ERC998ERC1155TD is Context, ERC721, ERC1155Holder, IERC998ERC1155TD {
         internal 
         virtual
     { }
+
 
     function _asSingletonUIntArray(uint256 element) 
         private 
