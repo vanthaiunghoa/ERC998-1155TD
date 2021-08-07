@@ -47,7 +47,7 @@ describe("ERC998-ERC1155 Topdown single asset transfer tests", () => {
             this.MULTITOKENS_OWNER.address,
             this.composable.address,
             childTokenIDToTransfer,
-            childTokenIDToTransfer,
+            childTokenAmountToTransfer,
             1
           )
       ).to.be.revertedWith(
@@ -63,7 +63,7 @@ describe("ERC998-ERC1155 Topdown single asset transfer tests", () => {
             this.MULTITOKENS_OWNER.address,
             this.composable.address,
             childTokenIDToTransfer,
-            childTokenIDToTransfer,
+            childTokenAmountToTransfer,
             encodedNonExistentParentID
           )
       ).to.be.revertedWith(
