@@ -1,35 +1,28 @@
 // SPDX-License-Identifier: UNLICENSED
 
-pragma solidity 0.8.6;
+pragma solidity 0.8.5;
 
-
-import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/token/ERC1155/utils/ERC1155Holder.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 import "@openzeppelin/contracts/utils/Context.sol";
 import "./IERC998ERC1155TD.sol";
 
-contract ERC998ERC1155TD is Context, ERC721URIStorage, ERC1155Holder, IERC998ERC1155TD {
+contract ERC998ERC1155TD is Context, ERC721, ERC1155Holder, IERC998ERC1155TD {
     using EnumerableSet for EnumerableSet.AddressSet;
     using EnumerableSet for EnumerableSet.UintSet;
 
     // parentTokenID => set(childContractAddress)
     mapping(uint256 => EnumerableSet.AddressSet) private _childrenContractsOfParent;
-     // parentTokenID => map(childTokenAddress => set(childTokensID))
+     // parentTokenID => map(childTokenAddress => set(childrenTokenIDs))
     mapping(uint256 => mapping(address => EnumerableSet.UintSet)) private _childrenIDsOfParent;
     // parentTokenID => map(childTokenAddress => map(childTokenID => balance))
     mapping(uint256 => mapping(address => mapping(uint256 => uint256))) private _childBalanceOfParent;
     // childTokenAddress => map(childTokenID => parentTokenID)
     mapping(address => mapping(uint256 => uint256)) private _parentOfChild;
 
-    string public baseURI;
-
-    constructor(string memory _name, string memory _symbol, string memory _uriBase) ERC721(_name, _symbol) {
-        baseURI = _uriBase;
-    }
+    constructor(string memory _name, string memory _symbol) ERC721(_name, _symbol) {}
 
 
     /**
@@ -171,7 +164,7 @@ contract ERC998ERC1155TD is Context, ERC721URIStorage, ERC1155Holder, IERC998ERC
         override(ERC1155Holder)
         returns(bytes4)
     {
-        require(_data.length == 32, "ERC998ERC1155TD: Data argument must contain the receiving parent token ID as uint256");
+        require(_data.length == 0x20, "ERC998ERC1155TD: Data argument must contain the receiving parent token ID as uint256");
 
         uint256 parentTokenId;
 
@@ -221,7 +214,7 @@ contract ERC998ERC1155TD is Context, ERC721URIStorage, ERC1155Holder, IERC998ERC
         override(ERC1155Holder) 
         returns(bytes4) 
     {
-        require(_data.length == 32, "ERC998ERC1155TD: Data argument must contain the receiving parent token ID as uint256");
+        require(_data.length == 0x20, "ERC998ERC1155TD: Data argument must contain the receiving parent token ID as uint256");
 
         uint256 parentTokenId;
 
@@ -410,7 +403,7 @@ contract ERC998ERC1155TD is Context, ERC721URIStorage, ERC1155Holder, IERC998ERC
 
 
     /**
-     * @dev Hook that is called before any token transfer. This includes minting
+     * @dev Hook that is called before any child token transfer. This includes minting
      * and burning, as well as batched variants.
      * The same hook is called on both single and batched variants. For single
      * transfers, the length of the `_childrenTokenIds` and `_childrenTokenAmounts` arrays will be 1.
@@ -429,17 +422,6 @@ contract ERC998ERC1155TD is Context, ERC721URIStorage, ERC1155Holder, IERC998ERC
         internal 
         virtual
     { }
-
-
-    function _baseURI() 
-        internal
-        view 
-        virtual
-        override 
-        returns(string memory) 
-    {
-        return baseURI;
-    }
 
 
     function _asSingletonUIntArray(uint256 element) 
